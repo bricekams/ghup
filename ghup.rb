@@ -7,25 +7,25 @@ tmp_dir = Dir.mktmpdir
 
 stdout, stderr, status = Open3.capture3("flutter pub get", :chdir => tmp_dir)
 if status.success?
-  puts "Dépendances installées avec succès"
+  puts "Dependencies successfully installed"
 else
-  puts "Erreur lors de l'installation des dépendances : #{stderr}"
+  puts "Error while installing dependencies : #{stderr}"
 end
 
 apk_path = File.join(tmp_dir, 'build', 'app', 'outputs', 'flutter-apk', 'app-release.apk')
 stdout, stderr, status = Open3.capture3("flutter build apk", :chdir => tmp_dir)
 if status.success?
-  puts "APK construit avec succès"
+  puts "APK build done"
 else
-  puts "Erreur lors de la construction de l'APK : #{stderr}"
+  puts "Error while building the apk : #{stderr}"
 end
 
 emulator_name = 'Pixel_4_API_30'
 stdout, stderr, status = Open3.capture3("emulator -avd #{emulator_name} &")
 if status.success?
-  puts "Émulateur lancé avec succès"
+  puts "Emulator started"
 else
-  puts "Erreur lors du lancement de l'émulateur : #{stderr}"
+  puts "Error while starting emulator : #{stderr}"
 end
 
 while true do
@@ -35,13 +35,13 @@ while true do
   end
   sleep(1)
 end
-puts "Émulateur prêt"
+puts "Emulator ready"
 
 stdout, stderr, status = Open3.capture3("adb install -r #{apk_path}")
 if status.success?
-  puts "APK installé avec succès"
+  puts "APK successfully installed"
 else
-  puts "Erreur lors de l'installation de l'APK : #{stderr}"
+  puts "Error while installing the apk : #{stderr}"
 end
 
 FileUtils.remove_entry(tmp_dir)
